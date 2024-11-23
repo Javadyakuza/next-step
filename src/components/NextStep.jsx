@@ -1,13 +1,36 @@
-import React, { useState } from 'react';
-import '../styles/NextStep.css';
+import React, { useState } from "react";
+import "../styles/NextStep.css";
 
 const NextStep = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [currentTask, setCurrentTask] = useState(null);
   const [tasks, setTasks] = useState([]);
-  const [systemOrder, setSystemOrder] = useState('Write Down what you wanna do');
+  const [systemOrder, setSystemOrder] = useState(
+    "Write Down what you wanna do"
+  );
   const [showStatusModal, setShowStatusModal] = useState(false);
-  const [resultInput, setResultInput] = useState('');
+  const [resultInput, setResultInput] = useState("");
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseEnter = (e) => {
+    console.log("entered");
+    console.log("status", showStatusModal);
+    if (currentTask != null) {
+      console.log("status", showStatusModal);
+      const rect = e.target.getBoundingClientRect();
+      setTooltipPosition({
+        x: rect.left + rect.width / 2,
+        y: rect.top - 10,
+      });
+      setShowTooltip(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    console.log("exited");
+    setShowTooltip(false);
+  };
 
   const updateTask = () => {
     if (inputValue.trim()) {
@@ -15,31 +38,31 @@ const NextStep = () => {
         alert("Please complete the current task's status first!");
         return;
       }
-      
+
       const newTask = {
         id: Date.now(),
         text: inputValue,
         status: null,
-        result: '',
-        timestamp: new Date().toLocaleString()
+        result: "",
+        timestamp: new Date().toLocaleString(),
       };
-      
+
       setCurrentTask(newTask);
-      setSystemOrder('JUST DO');
-      setInputValue('');
+      setSystemOrder("JUST DO");
+      setInputValue("");
       setShowStatusModal(true);
     }
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault();
       updateTask();
     }
   };
 
   const handleTaskCompletion = (status) => {
-    if (!resultInput.trim() && status === 'done') {
+    if (!resultInput.trim() && status === "done") {
       alert("Please enter the results before marking as done!");
       return;
     }
@@ -47,14 +70,14 @@ const NextStep = () => {
     const updatedTask = {
       ...currentTask,
       status: status,
-      result: resultInput
+      result: resultInput,
     };
 
-    setTasks(prevTasks => [...prevTasks, updatedTask]);
+    setTasks((prevTasks) => [...prevTasks, updatedTask]);
     setCurrentTask(null);
-    setResultInput('');
+    setResultInput("");
     setShowStatusModal(false);
-    setSystemOrder('Write Down what you wanna do');
+    setSystemOrder("Write Down what you wanna do");
   };
 
   return (
@@ -62,29 +85,54 @@ const NextStep = () => {
       <div className="retro-container">
         <h1 className="retro-title">
           <span className="system-order">{systemOrder}</span>
-          <br /><br />
-          <span className="user-text">
-            {currentTask?.text || ''}
-          </span>
+          <br />
+          <br />
+          <span className="user-text">{currentTask?.text || ""}</span>
         </h1>
-
-        <input
-          type="text"
-          className="retro-input"
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-          value={inputValue}
-          placeholder="Enter your task..."
-          disabled={showStatusModal}
-        />
-
-        <button
-          className="retro-button"
-          onClick={updateTask}
-          disabled={showStatusModal}
+        <div
+          className="input-wrapper"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
-          Change the purpose
-        </button>
+          <input
+            type="text"
+            className="retro-input"
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+            value={inputValue}
+            placeholder="Enter your task..."
+            disabled={showStatusModal}
+          />
+          {/* Add pointer-events-none to the pseudo-element if needed */}
+          {currentTask && <div className="disabled-overlay" />}
+        </div>
+
+        <div
+          className="button-wrapper"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          <button
+            className="retro-button"
+            onClick={updateTask}
+            disabled={showStatusModal}
+          >
+            Change the purpose
+          </button>
+          {currentTask && <div className="disabled-overlay" />}
+        </div>
+
+        {showTooltip && (
+          <div
+            className="retro-tooltip"
+            style={{
+              left: `${tooltipPosition.x}px`,
+              top: `${tooltipPosition.y}px`,
+            }}
+          >
+            Finish the current task first!
+          </div>
+        )}
 
         {showStatusModal && (
           <div className="status-modal">
@@ -97,13 +145,13 @@ const NextStep = () => {
             <div className="status-buttons">
               <button
                 className="retro-button status-button done"
-                onClick={() => handleTaskCompletion('done')}
+                onClick={() => handleTaskCompletion("done")}
               >
                 DONE
               </button>
               <button
                 className="retro-button status-button undone"
-                onClick={() => handleTaskCompletion('undone')}
+                onClick={() => handleTaskCompletion("undone")}
               >
                 UNDONE
               </button>
@@ -116,8 +164,8 @@ const NextStep = () => {
         <div className="task-list done-tasks">
           <h2>COMPLETED TASKS</h2>
           {tasks
-            .filter(task => task.status === 'done')
-            .map(task => (
+            .filter((task) => task.status === "done")
+            .map((task) => (
               <div key={task.id} className="task-item done">
                 <div className="task-text">{task.text}</div>
                 <div className="task-result">{task.result}</div>
@@ -125,12 +173,12 @@ const NextStep = () => {
               </div>
             ))}
         </div>
-        
+
         <div className="task-list undone-tasks">
           <h2>UNDONE TASKS</h2>
           {tasks
-            .filter(task => task.status === 'undone')
-            .map(task => (
+            .filter((task) => task.status === "undone")
+            .map((task) => (
               <div key={task.id} className="task-item undone">
                 <div className="task-text">{task.text}</div>
                 <div className="task-timestamp">{task.timestamp}</div>
