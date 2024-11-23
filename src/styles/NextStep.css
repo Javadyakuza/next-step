@@ -1,15 +1,20 @@
 @import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
-.retro-container {
+.retro-layout {
+  display: flex;
+  min-height: 100vh;
   background-color: #000;
+}
+
+.retro-container {
+  flex: 1;
   color: #0f0;
   font-family: "Press Start 2P", cursive;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  margin: 0;
+  padding: 2rem;
   text-shadow: 0 0 5px #0f0;
 }
 
@@ -27,7 +32,8 @@
 }
 
 .retro-input,
-.retro-button {
+.retro-button,
+.retro-textarea {
   background-color: #000;
   border: 2px solid #0f0;
   color: #0f0;
@@ -37,6 +43,87 @@
   margin-bottom: 1rem;
   text-shadow: inherit;
   animation: flicker 2s infinite;
+  width: 300px;
+}
+
+.retro-textarea {
+  height: 100px;
+  resize: none;
+}
+
+.status-modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.status-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.status-button {
+  width: 150px;
+}
+
+.status-button.done {
+  border-color: #0f0;
+}
+
+.status-button.undone {
+  border-color: #f00;
+}
+
+.task-sidebar {
+  width: 300px;
+  background-color: #111;
+  padding: 2rem;
+  overflow-y: auto;
+  border-left: 2px solid #0f0;
+}
+
+.task-list {
+  margin-bottom: 2rem;
+}
+
+.task-list h2 {
+  color: #0f0;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.task-item {
+  border: 1px solid #0f0;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  animation: flicker 2s infinite;
+}
+
+.task-item.done {
+  border-color: #0f0;
+}
+
+.task-item.undone {
+  border-color: #f00;
+}
+
+.task-text {
+  color: #0f0;
+  margin-bottom: 1rem;
+}
+
+.task-result {
+  color: #0ff;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.task-timestamp {
+  color: #666;
+  font-size: 1rem;
 }
 
 @keyframes glitch {
@@ -51,4 +138,11 @@
 @keyframes flicker {
   0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
   20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.6; }
+}
+
+/* Disabled state styles */
+.retro-input:disabled,
+.retro-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
