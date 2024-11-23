@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+
+.retro-container {
+  background-color: #000;
+  color: #0f0;
+  font-family: "Press Start 2P", cursive;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+  text-shadow: 0 0 5px #0f0;
+}
+
+.retro-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  animation: glitch 1s infinite;
+  text-align: center;
+}
+
+.user-text {
+  color: #f00;
+  font-size: 4rem;
+  text-shadow: 0 0 10px #f00;
+}
+
+.retro-input,
+.retro-button {
+  background-color: #000;
+  border: 2px solid #0f0;
+  color: #0f0;
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-shadow: inherit;
+  animation: flicker 2s infinite;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(-1px, -1px); }
+  60% { transform: translate(1px, 1px); }
+  80% { transform: translate(1px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% { opacity: 1; }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% { opacity: 0.6; }
+}
