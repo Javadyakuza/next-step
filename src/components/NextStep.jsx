@@ -167,14 +167,15 @@ const NextStep = () => {
 
   return (
     <div className="retro-layout">
-      <div className="retro-container">
-        <h1 className="retro-title">
-          <span className="system-order">{systemOrder}</span>
-          <br /><br />
-          <span className="user-text">
-            {currentTask?.text || ''}
-          </span>
-        </h1>
+    <div className="retro-container">
+      <span className="note">only the  NEXT STEP can be done!</span>
+      <h1 className="retro-title">
+        <span className="system-order">{systemOrder}</span>
+        <br /><br />
+        <span className="user-text">
+          {currentTask?.text || ''}
+        </span>
+      </h1>
 
         <div 
           className="input-wrapper"

@@ -16,6 +16,22 @@
   justify-content: center;
   padding: 2rem;
   text-shadow: 0 0 5px #0f0;
+  padding-top: 100px;
+}
+.note {
+  color: rgb(174, 0, 255);
+  text-shadow: 0 0 20px rgb(174, 0, 255);
+  position: fixed;
+  top: 3em;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  animation: glitch 1s infinite;
+  text-align: center;
+  word-break: break-word;
+  font-family: "Press Start 2P", cursive;
+  z-index: 1000;
+  width: 80%;
+  max-width: 800px;
 }
 
 .retro-title {
@@ -150,6 +166,7 @@
     transform: translate(0, 0);
   }
 }
+
 
 @keyframes flicker {
   0%,
